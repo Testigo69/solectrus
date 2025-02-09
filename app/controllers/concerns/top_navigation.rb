@@ -1,0 +1,168 @@
+module TopNavigation # rubocop:disable Metrics/ModuleLength
+  extend ActiveSupport::Concern
+
+  included do # rubocop:disable Metrics/BlockLength
+    private
+
+    helper_method def topnav_primary_items
+      [stats_item, essentials_item, top10_item]
+    end
+
+    helper_method def topnav_secondary_items
+      [
+        settings_item,
+        registration_item,
+        ___,
+        expand_item,
+        compress_item,
+        ___,
+        docs_item,
+        about_item,
+        ___,
+        session_item,
+      ].compact
+    end
+
+    def ___
+      { name: '-' }
+    end
+
+    def stats_item
+      {
+        name: t('layout.balance'),
+        href: root_path(sensor: 'inverter_power', timeframe: 'now'),
+        current: helpers.controller.is_a?(HomeController),
+      }
+    end
+
+    def essentials_item
+      {
+        name: t('layout.essentials'),
+        href: essentials_path,
+        current: helpers.controller.is_a?(EssentialsController),
+      }
+    end
+
+    def top10_item
+      {
+        name: t('layout.top10'),
+        href:
+          top10_path(
+            sensor:
+              if helpers.respond_to?(:sensor) &&
+                   helpers.sensor.in?(SensorConfig::POWER_SENSORS)
+                helpers.sensor
+              else
+                'inverter_power'
+              end,
+            period: corresponding_top10_period,
+            sort: 'desc',
+            calc: 'sum',
+          ),
+        current: helpers.controller.is_a?(Top10Controller),
+      }
+    end
+
+    def corresponding_top10_period
+      return 'day' unless helpers.respond_to?(:timeframe)
+
+      case helpers.timeframe&.id
+      when :day, :week, :month, :year
+        helpers.timeframe.id
+      else
+        :day
+      end
+    end
+
+    def about_item
+      {
+        name: t('layout.about'),
+        href: 'https://solectrus.de',
+        icon: 'circle-info',
+      }
+    end
+
+    def registration_item
+      return unless helpers.admin?
+
+      {
+        name:
+          (
+            if UpdateCheck.prompt?
+              t('layout.registration_and_sponsoring')
+            else
+              t('layout.registration')
+            end
+          ),
+        href: registration_path,
+        icon: 'id-card',
+        data: {
+          turbo: 'false',
+        },
+      }
+    end
+
+    def expand_item
+      {
+        name: t('layout.fullscreen_on'),
+        icon: 'expand',
+        data: {
+          'fullscreen-target' => 'btnOn',
+          :action => 'click->fullscreen#on',
+        },
+      }
+    end
+
+    def compress_item
+      {
+        name: t('layout.fullscreen_off'),
+        icon: 'compress',
+        data: {
+          'fullscreen-target' => 'btnOff',
+          :action => 'click->fullscreen#off',
+        },
+      }
+    end
+
+    def docs_item
+      {
+        name: t('layout.docs'),
+        icon: 'circle-question',
+        href: 'https://docs.solectrus.de',
+      }
+    end
+
+    def settings_item
+      {
+        name: t('layout.settings'),
+        icon: 'cog',
+        href: settings_path,
+        current:
+          helpers.controller.is_a?(SettingsController) ||
+            helpers.controller.is_a?(PricesController),
+      }
+    end
+
+    def session_item
+      if helpers.admin?
+        {
+          name: t('layout.logout'),
+          icon: 'arrow-right-from-bracket',
+          href: session_path,
+          data: {
+            'turbo-method': :delete,
+          },
+        }
+      else
+        {
+          name: t('layout.login'),
+          icon: 'arrow-right-to-bracket',
+          href: new_session_path,
+          data: {
+            turbo_frame: 'modal',
+          },
+        }
+      end
+    end
+  end
+end

@@ -1,0 +1,14 @@
+de:
+  grid:
+    header: Kosten durch Netzbezug
+    import_power: Aus dem Netz bezogene Energie
+    import_costs: Netzbezugskosten
+
+  pv:
+    header: Kosten durch Eigenverbrauch
+    opportunity_costs: Entgangene Einspeisevergütung
+
+  total_costs: Gesamtkosten
+
+  from: von
+  to: bis

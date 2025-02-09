@@ -1,0 +1,11 @@
+name: Anforderungsbeschreibung
+description: Neues Feature für SOLECTRUS vorschlagen
+labels: ['enhancement']
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Beschreibung (auf Deutsch oder Englisch)
+    validations:
+      required: true

@@ -1,0 +1,14 @@
+en:
+  grid:
+    header: Costs from grid-consumption
+    import_power: Imported from the grid
+    import_costs: Import costs
+
+  pv:
+    header: Costs from self-consumption
+    opportunity_costs: Lost feed-in tariff
+
+  total_costs: Total costs
+
+  from: from
+  to: to

@@ -1,0 +1,88 @@
+= render Balance::Component.new calculator:,
+                                timeframe:,
+                                sensor:,
+                                peak: do |balance|
+
+  = balance.with_center do
+    - if SensorConfig.x.exists?(:autarky)
+      = link_to root_path(sensor: 'autarky', timeframe:),
+                data: { \
+                  turbo_frame: helpers.frame_id('chart'),
+                  turbo_action: 'replace',
+                  turbo_prefetch: 'false',
+                  'stats-with-chart--component-target': 'current',
+                  sensor: 'autarky',
+                  value: calculator.autarky,
+                  time: calculator.time.to_i,
+                  action: 'stats-with-chart--component#startLoop',
+                  stats_with_chart__component_sensor_param: 'autarky',
+                },
+                class: 'click-animation' do
+        div data-controller="tippy"
+          = render RadialBadge::Component.new(percent: calculator.autarky, title: t('calculator.autarky'))
+          .hidden#autarky-details-tooltip data-tippy-target="html"
+            = render AutarkyDetails::Component.new(calculator:)
+
+    - if SensorConfig.x.exists?(:self_consumption) && calculator.self_consumption_quote
+      = link_to root_path(sensor: 'self_consumption', timeframe:),
+                data: { \
+                  turbo_frame: helpers.frame_id('chart'),
+                  turbo_action: 'replace',
+                  turbo_prefetch: 'false',
+                  'stats-with-chart--component-target': 'current',
+                  sensor: 'self_consumption',
+                  value: calculator.self_consumption_quote,
+                  time: calculator.time.to_i,
+                  action: 'stats-with-chart--component#startLoop',
+                  stats_with_chart__component_sensor_param: 'self_consumption',
+                },
+                class: 'click-animation' do
+        div data-controller="tippy"
+          = render RadialBadge::Component.new(percent: calculator.self_consumption_quote, neutral: true, title: t('calculator.self_consumption_quote_short'))
+          .hidden#consumption-details-tooltip data-tippy-target="html"
+            = render ConsumptionDetails::Component.new(calculator:)
+
+    div class="flex-1 flex flex-col justify-center -mx-2 sm:-mx-4"
+      = render Flow::Component.new value: calculator.total, max: max_flow
+
+    - if calculator.case_temp&.nonzero?
+      = link_to root_path(sensor: 'case_temp', timeframe:),
+                data: { \
+                  turbo_frame: helpers.frame_id('chart'),
+                  turbo_action: 'replace',
+                  turbo_prefetch: 'false',
+                  'stats-with-chart--component-target': 'current',
+                  sensor: 'case_temp',
+                  value: calculator.case_temp,
+                  time: calculator.time.to_i,
+                  action: 'stats-with-chart--component#startLoop',
+                  stats_with_chart__component_sensor_param: 'case_temp',
+                },
+                class: 'click-animation' do
+        = render RadialBadge::Component.new(title: t('sensors.case_temp')) do
+          = Number::Component.new(value: calculator.case_temp.round).to_grad_celsius(max_precision: 0)
+
+    - if SensorConfig.x.exists_all?(:battery_soc, :car_battery_soc)
+      = render SocBadge::Component.new( \
+          battery_soc: calculator.battery_soc,
+          car_battery_soc: calculator.car_battery_soc,
+          time: calculator.time,
+          timeframe:,
+          car_connected: calculator.wallbox_car_connected,
+        )
+
+    - elsif SensorConfig.x.exists?(:battery_soc)
+      = link_to root_path(sensor: 'battery_soc', timeframe:),
+                data: { \
+                  turbo_frame: helpers.frame_id('chart'),
+                  turbo_action: 'replace',
+                  turbo_prefetch: 'false',
+                  'stats-with-chart--component-target': 'current',
+                  sensor: 'battery_soc',
+                  value: calculator.battery_soc,
+                  time: calculator.time.to_i,
+                  action: 'stats-with-chart--component#startLoop',
+                  stats_with_chart__component_sensor_param: 'battery_soc',
+                },
+                class: 'click-animation' do
+        = render RadialBadge::Component.new(percent: calculator.battery_soc, neutral: true, title: t('balance_sheet.soc'))

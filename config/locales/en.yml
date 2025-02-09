@@ -1,0 +1,182 @@
+en:
+  layout:
+    balance: Power balance
+    essentials: Essentials
+    top10: Top 10
+    about: About SOLECTRUS
+    fullscreen_on: Fullscreen
+    fullscreen_off: Exit Fullscreen
+    theme: Theme
+    docs: Documentation
+    settings: Settings
+    registration: Registration
+    registration_and_sponsoring: Registration & Sponsoring
+    login: Login as Admin
+    logout: Logout
+    version_outdated: New version <strong>%{latest_version}</strong> available!
+    version_uptodate: This is the latest version
+    prompt_for_sponsoring: Do you like SOLECTRUS? Support the further development with a sponsorship and get more features.
+    missing_sponsoring_header: Sponsoring required
+    missing_sponsoring: Only sponsors can ensure the further development of SOLECTRUS.
+    missing_sponsoring_cta: Learn more...
+    active_sponsoring_header: Sponsoring is active
+    active_sponsoring: Thank you very much for your support!
+  timeframe:
+    now: Now
+    day: Today
+    week: This week
+    month: This month
+    year: This year
+    all: Since commissioning %{since} ago
+  sensors:
+    inverter_power: PV generated
+    inverter_power_forecast: Forecast
+    house_power: Home consumption
+    house_power_grid: Grid
+    house_power_pv: PV
+    wallbox_power: EV charging
+    wallbox_power_grid: Grid
+    wallbox_power_pv: PV
+    grid_import_power: Grid import
+    grid_export_power: Grid export
+    grid_power: Grid import and export
+    battery_discharging_power: Battery discharge
+    battery_charging_power: Battery charge
+    battery_power: Home Battery
+    battery_soc: SOC Home Battery
+    car_battery_soc: SOC EV
+    case_temp: Temperature
+    grid_export_limit: Limitation
+    heatpump_power: Heat pump
+    heatpump_power_grid: Grid
+    heatpump_power_pv: PV
+  balance_sheet:
+    left: Source
+    right: Usage
+    soc: Charge
+  calculator:
+    now: Now
+    day: Day
+    week: Week
+    month: Month
+    year: Year
+    all: Overall
+    grid_quote: Grid consumption rate
+    consumption: Total consumption
+    self_consumption: Self consumption
+    self_consumption_quote: Self-consumption rate
+    self_consumption_quote_short: Self-use
+    solar_price: Solar price
+    traditional_price: Comparative price
+    savings: Savings
+    co2_reduction: CO₂ reduction
+    co2_reduction_note: Reduction in CO₂ emissions from PV generation based on the factor %{co2_emission_factor}&nbsp;g/kWh
+    battery_savings: Battery share
+    total_costs: Total costs
+    autarky: Autarky
+    time: Last measurement taken
+    blank: No data available!
+  forecast:
+    exactly: Exactly as expected
+    better_html: '%{percent} more than expected'
+    worse_html: '%{percent} less than expected'
+    expect_html: '%{value} expected'
+    expectation_html: Expected %{value}
+    unknown: No forecast available
+  login:
+    title: Login as admin
+    missing_password_error: Unable to log in because no password has been configured.
+    missing_password_hint: To enable administrator login, an entry for <code>ADMIN_PASSWORD</code> must be added to the environment variables.
+    password_hint: The password is stored as <code>ADMIN_PASSWORD</code> in the <code>.env</code> file on your Docker host.
+    submit: Login
+  sponsoring:
+    show:
+      headline: SOLECTRUS needs sponsors!
+      p1: SOLECTRUS is open source – that means freedom for you, but also hard work for the developer. If you want updates and new features to continue, this is only possible with your financial support.
+      p2: By subscribing to a <strong>sponsorship plan</strong>, you not only ensure continued development but also gain access to <strong>exclusive features</strong> like the Power Splitter or Dark Mode. More sponsor-only features are in the pipeline.
+      p3: Does that sound like a fair offer?
+      more: Learn more about sponsoring
+      continue: Continue
+      skip: Maybe later
+      p4: You can continue to use SOLECTRUS for free, but this notice will occasionally appear as a reminder of the sponsorship opportunity.
+      login_required: To sponsor or see more options, please log in as an administrator.
+  crud:
+    new: New
+    edit: Edit
+    delete: Delete
+    save: Save
+    confirm_delete: Are you sure you want to delete?
+    success: Successfully performed
+    error: An error occurred
+  settings:
+    general:
+      name: General
+      plant:
+        description: Information on the photovoltaic system and the operator. Displayed on the essentials page only.
+        plant_name:
+          placeholder: e.g. SENEC.Home V3, 28 modules on the house roof in south orientation with 9.24 kWp
+        operator_name:
+          placeholder: e.g. John Doe from Foo City
+      options:
+        description: Options
+        opportunity_costs:
+          hint: Consider missed feed-in compensation as part of electricity costs
+      summaries:
+        title: Daily summaries
+        description: A summary is calculated for each day to allow efficient analyses. In rare cases (such as after an import of historical measurements) it may be necessary to reset these summaries.
+        zero: There are no summaries available.
+        fresh_percentage: There are %{value}% of the required summaries available.
+        reset:
+          title: Reset
+          confirmation: Rebuilding the summaries will take some time. Continue?
+          flash: Summaries have been reset.
+    prices:
+      edit: Edit price
+      new: Add price
+      description:
+        electricity: Price per consumed kWh paid to the electricity supplier. Changes regularly, usually annually.
+        feed_in: Government-set tariff per kWh fed into the grid. Typically remains constant for 20 years.
+  errors:
+    title: Error
+    403:
+      title: Access denied
+      description: You are not authorized to access this page.
+    404:
+      title: Not Found
+      description: The requested page could not be found.
+    422:
+      title: Unprocessable Content
+      description: The requested change was rejected.
+    500:
+      title: Internal Server Error
+      description: |
+        Sorry, something went wrong. See the server logs for more details.
+        <br><br>
+        <code>docker compose logs dashboard</code>
+    back_to_home: ← Back to homepage
+    login: Login as administrator
+
+  activemodel:
+    attributes:
+      admin_user:
+        password: Password
+
+  activerecord:
+    models:
+      price: Price
+      settings: Settings
+    attributes:
+      price:
+        name: Name
+        names:
+          electricity: Electricity price
+          feed_in: Feed-in tariff
+        starts_at: Effective from
+        value: Amount
+        note: Note
+        electricity_amount: Rate in &euro;/kWh
+        feed_in_amount: Rate in &euro;/kWh
+      setting:
+        plant_name: Name of the plant
+        operator_name: Name of the operator
+        opportunity_costs: Opportunity costs

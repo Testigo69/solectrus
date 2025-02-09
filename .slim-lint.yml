@@ -1,0 +1,19 @@
+exclude:
+  - 'vendor/**/*.slim'
+
+linters:
+  LineLength:
+    enabled: false
+
+  RuboCop:
+    enabled: true
+
+    ignored_cops:
+      - Layout/FirstHashElementIndentation
+      - Layout/HashAlignment
+      - Layout/TrailingEmptyLines
+      - Style/Next
+      - Style/RedundantLineContinuation
+      - Lint/Void
+      - Metrics/BlockLength
+      - Rails/SaveBang

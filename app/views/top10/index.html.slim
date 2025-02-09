@@ -1,0 +1,26 @@
+- turbo_exempts_page_from_cache
+
+- content_for :sub_nav do
+  .flex.justify-between.items-center.py-5
+    .hidden.lg:block
+      = render Nav::Sub::Component.new do |c|
+        = c.with_items nav_items
+
+    - if sensor_items.any?
+      .flex-1.flex.gap-5.items-center.justify-center.sm:justify-center.lg:justify-end.text-base.h-9
+        = render Top10CalcSelect::Component.new(calc:)
+        = render Top10SortToggle::Component.new
+        = render Dropdown::Component.new name: 'sensor-selector', items: sensor_items, selected: sensor
+
+- content_for :bottom_nav do
+  = render Nav::Sub::Component.new do |c|
+    = c.with_items nav_items
+
+- if @missing_or_stale_summary_days.present?
+  = render SummaryBuilder::Component.new(timeframe:, missing_or_stale_days: @missing_or_stale_summary_days)
+
+- else
+  = turbo_frame_tag 'top10',
+                    target: '_top',
+                    src: top10_chart_path(permitted_params.to_hash.symbolize_keys) do
+    .h-96

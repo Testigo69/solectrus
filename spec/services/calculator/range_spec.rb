@@ -1,0 +1,148 @@
+describe Calculator::Range do
+  let(:calculator) { described_class.new(timeframe) }
+
+  let(:timeframe) { Timeframe.day }
+  let(:updated_at) { 5.minutes.ago }
+
+  before do
+    Price.electricity.create! starts_at: '2020-02-01', value: 0.2545
+    Price.electricity.create! starts_at: '2022-02-01', value: 0.3244
+    Price.electricity.create! starts_at: '2022-07-01', value: 0.2801
+    Price.electricity.create! starts_at: '2023-02-01', value: 0.4451
+
+    Price.feed_in.create! starts_at: '2020-12-01', value: 0.0848
+
+    allow(calculator).to receive_messages(
+      inverter_power: 46_000,
+      inverter_power_forecast: 50_000,
+      got: 1,
+      paid: -6,
+      traditional_price: -15,
+      battery_savings: 3,
+      time: updated_at,
+    )
+  end
+
+  it 'calculates' do
+    expect(calculator.forecast_deviation).to eq(-8)
+    expect(calculator.solar_price).to eq(-5)
+    expect(calculator.savings).to eq(10)
+    expect(calculator.battery_savings_percent).to eq(30)
+
+    expect(calculator.time).to eq(updated_at)
+  end
+
+  context 'when power-splitter values are present' do
+    let(:timeframe) { Timeframe.new('2024-03-07') }
+
+    before do
+      allow(calculator).to receive_messages(
+        grid_import_power_array: [3000],
+        #
+        house_power: 10_000,
+        house_power_array: [10_000],
+        house_power_grid: 5000,
+        house_power_grid_array: [5000],
+        #
+        heatpump_power: 3000,
+        heatpump_power_array: [3000],
+        heatpump_power_grid: 1500,
+        heatpump_power_grid_array: [1500],
+        #
+        wallbox_power: 20_000,
+        wallbox_power_array: [20_000],
+        wallbox_power_grid: 10_000,
+        wallbox_power_grid_array: [10_000],
+      )
+    end
+
+    it 'calculates' do
+      expect(calculator.wallbox_power_grid_ratio).to eq(50)
+      expect(calculator.wallbox_power_pv_ratio).to eq(50)
+      expect(calculator.wallbox_costs).to eq(4.451)
+
+      expect(calculator.house_power_grid_ratio).to eq(50)
+      expect(calculator.house_power_pv_ratio).to eq(50)
+      expect(calculator.house_costs).to eq(2.2255)
+
+      expect(calculator.heatpump_power_grid_ratio).to eq(50)
+      expect(calculator.heatpump_power_pv_ratio).to eq(50)
+      expect(calculator.heatpump_costs).to eq(0.79485)
+    end
+  end
+
+  context 'when power-splitter values are present, but zero' do
+    let(:timeframe) { Timeframe.new('2024-03-07') }
+
+    before do
+      allow(calculator).to receive_messages(
+        grid_import_power_array: [0],
+        #
+        house_power: 0,
+        house_power_array: [0],
+        house_power_grid: 0,
+        house_power_grid_array: [0],
+        #
+        heatpump_power: 0,
+        heatpump_power_array: [0],
+        heatpump_power_grid: 0,
+        heatpump_power_grid_array: [0],
+        #
+        wallbox_power: 0,
+        wallbox_power_array: [0],
+        wallbox_power_grid: 0,
+        wallbox_power_grid_array: [0],
+      )
+    end
+
+    it 'calculates' do
+      expect(calculator.wallbox_power_grid_ratio).to eq(0)
+      expect(calculator.wallbox_power_pv_ratio).to eq(100)
+      expect(calculator.wallbox_costs).to eq(0)
+
+      expect(calculator.house_power_grid_ratio).to eq(0)
+      expect(calculator.house_power_pv_ratio).to eq(100)
+      expect(calculator.house_costs).to eq(0)
+
+      expect(calculator.heatpump_power_grid_ratio).to eq(0)
+      expect(calculator.heatpump_power_pv_ratio).to eq(100)
+      expect(calculator.heatpump_costs).to eq(0)
+    end
+  end
+
+  context 'when power-splitter values are missing' do
+    let(:timeframe) { Timeframe.new('2024-03-07') }
+
+    before do
+      allow(calculator).to receive_messages(
+        grid_import_power_array: [0],
+        #
+        house_power: 1000,
+        house_power_array: [1000],
+        #
+        heatpump_power: 2000,
+        heatpump_power_array: [2000],
+        #
+        wallbox_power: 5000,
+        wallbox_power_array: [5000],
+      )
+    end
+
+    it 'calculates' do
+      expect(calculator.wallbox_power).to eq(5000)
+      expect(calculator.wallbox_power_grid_ratio).to be_nil
+      expect(calculator.wallbox_power_pv_ratio).to be_nil
+      expect(calculator.wallbox_costs).to be_nil
+
+      expect(calculator.house_power).to eq(1000)
+      expect(calculator.house_power_grid_ratio).to be_nil
+      expect(calculator.house_power_pv_ratio).to be_nil
+      expect(calculator.house_costs).to be_nil
+
+      expect(calculator.heatpump_power).to eq(2000)
+      expect(calculator.heatpump_power_grid_ratio).to be_nil
+      expect(calculator.heatpump_power_pv_ratio).to be_nil
+      expect(calculator.heatpump_costs).to be_nil
+    end
+  end
+end

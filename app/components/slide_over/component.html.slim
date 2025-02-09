@@ -1,0 +1,87 @@
+.relative.z-50.hidden.text-gray-900.dark:text-gray-400[
+  aria-labelledby= 'slide-over-title'
+  role= 'dialog'
+  aria-modal= 'true'
+  data-slide-over--component-target= 'outer'
+]
+  .fixed.inset-0.bg-gray-700/75.dark:bg-gray-900/75.transition-opacity[
+    data-slide-over--component-target= 'overlay'
+
+    data-transition-enter=       'motion-safe:ease-in-out motion-safe:duration-500'
+    data-transition-enter-start= 'opacity-0'
+    data-transition-enter-end=   'opacity-100'
+    data-transition-leave=       'motion-safe:ease-in-out motion-safe:duration-500'
+    data-transition-leave-start= 'opacity-100'
+    data-transition-leave-end=   'opacity-0'
+  ]
+
+  .fixed.inset-0.overflow-hidden[
+    data-action= 'click->slide-over--component#close keydown.esc@document->slide-over--component#close'
+  ]
+    .absolute.inset-0.overflow-hidden
+      .pointer-events-none.fixed.inset-y-0.right-0.flex.max-w-full.pl-10[
+        data-slide-over--component-target= 'panel'
+        data-transition-enter=       'transform motion-safe:transition motion-safe:ease-in-out motion-safe:duration-500'
+        data-transition-enter-start= 'translate-x-full'
+        data-transition-enter-end=   'translate-x-0'
+        data-transition-leave=       'transform motion-safe:transition motion-safe:ease-in-out motion-safe:duration-500'
+        data-transition-leave-start= 'translate-x-0'
+        data-transition-leave-end=   'translate-x-full'
+      ]
+        .pointer-events-auto.w-screen.max-w-md
+          .flex.h-full.flex-col.overflow-y-scroll.bg-white.dark:bg-slate-800.pt-6.shadow-xl
+            .px-4.sm:px-6
+              .flex.items-start.justify-between
+                h2#slide-over-title.text-base.font-semibold.leading-6.text-gray-900.dark:text-gray-300
+                  | SOLECTRUS
+
+                .ml-3.flex.h-7.items-center
+                  button.relative.rounded-md.bg-transparent.text-gray-400.hover:text-gray-500.dark:hover:text-gray-300.focus:outline-none.focus:ring-2.focus:ring-indigo-500.focus:ring-offset-2[
+                    type= 'button'
+                    data-action= 'click->slide-over--component#close'
+                  ]
+                    span.absolute.-inset-2.5
+
+                    span.sr-only
+                      | Close panel
+
+                    svg.h-6.w-6[
+                      fill= 'none'
+                      viewbox= '0 0 24 24'
+                      stroke-width= '1.5'
+                      stroke= 'currentColor'
+                      aria-hidden= 'true'
+                    ]
+                      path stroke-linecap= 'round' stroke-linejoin= 'round' d= 'M6 18L18 6M6 6l12 12'
+
+            .relative.mt-6.flex-1
+              = content
+
+            - unless ThemeConfig.x.static?
+              .mx-auto.mb-10
+                = render ThemeSelector::Component.new
+
+            - if UpdateCheck.prompt? && !current_page?(sponsoring_path)
+              .bg-yellow-100.dark:bg-pink-800
+                .bg-yellow-600.dark:bg-pink-700.text-white.w-full.h-10.text-center.flex.items-center.justify-center.uppercase.tracking-wider
+                  = I18n.t('layout.missing_sponsoring_header')
+
+                .p-5.text-gray-800.dark:text-gray-200
+                  .text-yellow-700.dark:text-pink-200
+                    - if helpers.admin?
+                      = I18n.t('layout.prompt_for_sponsoring')
+                    - else
+                      = I18n.t('layout.missing_sponsoring')
+
+                  .mt-2
+                    = link_to I18n.t('layout.missing_sponsoring_cta'), sponsoring_path, class: 'underline underline-offset-2'
+
+            - elsif UpdateCheck.sponsoring?
+              .bg-green-100
+                .bg-green-600.text-white.w-full.h-10.text-center.flex.items-center.justify-center.uppercase.tracking-wider
+                  = I18n.t('layout.active_sponsoring_header')
+
+                - if helpers.admin?
+                  .p-5.text-green-600.flex.justify-between.items-center
+                    = I18n.t('layout.active_sponsoring')
+                    .text-3xl 🎉

@@ -1,0 +1,182 @@
+de:
+  layout:
+    balance: Strombilanz
+    essentials: Einzelwerte
+    top10: Top 10
+    about: Über SOLECTRUS
+    fullscreen_on: Vollbild
+    fullscreen_off: Vollbild beenden
+    theme: Farbschema
+    docs: Dokumentation
+    settings: Einstellungen
+    registration: Registrierung
+    registration_and_sponsoring: Registrierung & Sponsoring
+    login: Als Admin anmelden
+    logout: Abmelden
+    version_outdated: Neue Version <strong>%{latest_version}</strong> verfügbar!
+    version_uptodate: Dies ist die neueste Version
+    prompt_for_sponsoring: Gefällt dir SOLECTRUS? Unterstütze die Weiterentwicklung mit einem Sponsoring und erhalte weitere Features.
+    missing_sponsoring_header: Sponsoring benötigt
+    missing_sponsoring: Nur durch Sponsoren kann die Weiterentwicklung von SOLECTRUS sichergestellt werden.
+    missing_sponsoring_cta: Mehr erfahren...
+    active_sponsoring_header: Sponsoring aktiv
+    active_sponsoring: Herzlichen Dank für deine Unterstützung!
+  timeframe:
+    now: Aktuell
+    day: Heute
+    week: Diese Woche
+    month: Dieser Monat
+    year: Dieses Jahr
+    all: Seit Inbetriebnahme vor %{since}
+  sensors:
+    inverter_power: Erzeugung
+    inverter_power_forecast: Prognose
+    house_power: Haus-Verbrauch
+    house_power_grid: Netzbezug
+    house_power_pv: Photovoltaik
+    wallbox_power: E-Auto
+    wallbox_power_grid: Netzbezug
+    wallbox_power_pv: Photovoltaik
+    grid_import_power: Netzbezug
+    grid_export_power: Einspeisung
+    grid_power: Netzbezug und -einspeisung
+    battery_discharging_power: Akku-Entnahme
+    battery_charging_power: Akku-Beladung
+    battery_power: Hausakku
+    battery_soc: Ladestand Hausakku
+    car_battery_soc: Ladestand E-Auto
+    case_temp: Temperatur
+    grid_export_limit: Begrenzung
+    heatpump_power: Wärmepumpe
+    heatpump_power_grid: Netzbezug
+    heatpump_power_pv: Photovoltaik
+  balance_sheet:
+    left: Herkunft
+    right: Verwendung
+    soc: Ladestand
+  calculator:
+    now: Aktuell
+    day: Tag
+    week: Woche
+    month: Monat
+    year: Jahr
+    all: Gesamt
+    grid_quote: Bezugsquote
+    consumption: Gesamtverbrauch
+    self_consumption: Eigenverbrauch
+    self_consumption_quote: Eigenverbrauchsquote
+    self_consumption_quote_short: Verbrauch
+    solar_price: Solarpreis
+    traditional_price: Vergleichspreis
+    savings: Einsparung
+    co2_reduction: CO₂-Reduktion
+    co2_reduction_note: Reduzierung der CO₂-Emissionen durch die Stromerzeugung basierend auf dem Faktor %{co2_emission_factor}&nbsp;g/kWh
+    battery_savings: Anteil Akku
+    total_costs: Kosten
+    autarky: Autarkie
+    time: Letzte Messung vor
+    blank: Keine Daten vorhanden!
+  forecast:
+    exactly: Genau wie erwartet
+    better_html: '%{percent} mehr als erwartet'
+    worse_html: '%{percent} weniger als erwartet'
+    expect_html: Erwartet werden %{value}
+    expectation_html: Erwartet wurden %{value}
+    unknown: Keine Prognose verfügbar
+  login:
+    title: Als Admin anmelden
+    missing_password_error: Eine Anmeldung ist nicht möglich, da kein Passwort konfiguriert worden ist.
+    missing_password_hint: Um einen Administrator-Login zu ermöglichen, muss in den Umgebungsvariablen ein Eintrag für <code>ADMIN_PASSWORD</code> ergänzt werden.
+    password_hint: Das Passwort befindet sich als <code>ADMIN_PASSWORD</code> in der <code>.env</code>-Datei auf deinem Docker-Host.
+    submit: Anmelden
+  sponsoring:
+    show:
+      headline: SOLECTRUS benötigt Sponsoren!
+      p1: SOLECTRUS ist Open Source – das bedeutet Freiheit für dich, aber auch harte Arbeit für den Entwickler. Wenn du möchtest, dass weiter an Updates und neuen Features gearbeitet wird, dann geht das nur mit deiner finanziellen Unterstützung.
+      p2: Mit dem Abschluss eines <strong>Sponsoring-Abos</strong> stellst du nicht nur die weitere Entwicklung sicher, sondern erhältst außerdem Zugriff auf <strong>exklusive Funktionen</strong>, wie z.B. den Power-Splitter oder den Dunkelmodus. Weitere Features, die nur für Sponsoren verfügbar sein werden, sind in Planung.
+      p3: Klingt das nach einem fairen Angebot?
+      more: Mehr über das Sponsoring erfahren
+      continue: Weiter
+      skip: Vielleicht später
+      p4: Du kannst SOLECTRUS weiterhin kostenfrei nutzen, dieser Hinweis erscheint jedoch gelegentlich als Erinnerung an die Möglichkeit eines Sponsorings.
+      login_required: Um das Sponsoring vorzunehmen oder weitere Optionen zu sehen, melde dich bitte als Administrator an.
+  crud:
+    new: Neu
+    edit: Bearbeiten
+    delete: Löschen
+    save: Speichern
+    confirm_delete: Wirklich löschen?
+    success: Erfolgreich durchgeführt
+    error: Es ist ein Fehler aufgetreten
+  settings:
+    general:
+      name: Allgemein
+      plant:
+        description: Angaben zur Photovoltaik-Anlage und zum Betreiber. Wird nur auf der Seite der Einzelwerte angezeigt.
+        plant_name:
+          placeholder: z.B. SENEC.Home V3, 28 Module auf dem Hausdach in Südausrichtung mit 9,24 kWp
+        operator_name:
+          placeholder: z.B. Max Mustermann in Musterstadt
+      options:
+        description: Optionen
+        opportunity_costs:
+          hint: Entgangene Einspeisevergütung als Teil der Stromkosten betrachten
+      summaries:
+        title: Tageszusammenfassungen
+        description: Es wird für jeden Tag eine Zusammenfassung berechnet, um effiziente Analysen zu ermöglichen. In seltenen Fällen (wie nach einem Import historischer Messwerte) kann es nötig sein, diese Zusammenfassungen zurückzusetzen.
+        zero: Es sind keine Zusammenfassungen vorhanden.
+        fresh_percentage: Es sind %{value}% der benötigten Zusammenfassungen vorhanden.
+        reset:
+          title: Zurücksetzen
+          confirmation: Das Neuberechnen der Zusammenfassungen wird einige Zeit dauern. Wirklich fortfahren?
+          flash: Zusammenfassungen wurden zurückgesetzt.
+    prices:
+      edit: Preis bearbeiten
+      new: Neuer Preis
+      description:
+        electricity: An den Stromversorger zu zahlender Arbeitspreis pro bezogene kWh. Ändert sich regelmäßig, meist jährlich.
+        feed_in: Staatlich festgelegte Vergütung pro eingespeiste kWh. Ist üblicherweise für 20 Jahre konstant.
+  errors:
+    title: Fehler
+    403:
+      title: Zugriff verweigert
+      description: Du hast nicht die erforderliche Berechtigung für diese Seite.
+    404:
+      title: Nicht gefunden
+      description: Die angeforderte Seite konnte nicht gefunden werden.
+    422:
+      title: Verarbeitung nicht möglich
+      description: Die gewünschte Änderung wurde abgelehnt.
+    500:
+      title: Interner Server-Fehler
+      description: |
+        Sorry, da ist etwas schief gelaufen. Im Server-Protokoll finden sich weitere Details.
+        <br><br>
+        <code>docker compose logs dashboard</code>
+    back_to_home: ← Zurück zur Startseite
+    login: Als Administrator anmelden
+
+  activemodel:
+    attributes:
+      admin_user:
+        password: Passwort
+
+  activerecord:
+    models:
+      price: Preis
+      settings: Einstellungen
+    attributes:
+      price:
+        name: Name
+        names:
+          electricity: Strompreis
+          feed_in: Einspeisevergütung
+        starts_at: Gültig ab
+        value: Betrag
+        note: Notiz
+        electricity_amount: Arbeitspreis in &euro;/kWh
+        feed_in_amount: Vergütungssatz in &euro;/kWh
+      setting:
+        plant_name: Bezeichung der Anlage
+        operator_name: Name des Betreibers
+        opportunity_costs: Opportunitätskosten

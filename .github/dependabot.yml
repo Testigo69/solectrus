@@ -1,0 +1,88 @@
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+  - package-ecosystem: bundler
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '03:30'
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 10
+    versioning-strategy: lockfile-only
+    allow:
+      - dependency-type: direct
+      - dependency-type: indirect
+    labels:
+      - 'dependencies'
+    groups:
+      rails:
+        patterns:
+          - 'actioncable'
+          - 'actionmailbox'
+          - 'actionmailer'
+          - 'actionpack'
+          - 'actiontext'
+          - 'actionview'
+          - 'activejob'
+          - 'activemodel'
+          - 'activerecord'
+          - 'activestorage'
+          - 'activesupport'
+          - 'rails'
+          - 'railties'
+          - 'turbo-rails'
+          - 'stimulus-rails'
+      rubocop:
+        patterns:
+          - 'rubocop'
+          - 'rubocop-*'
+      rspec:
+        patterns:
+          - 'rspec'
+          - 'rspec-*'
+
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: daily
+      time: '03:30'
+      timezone: Europe/Berlin
+    open-pull-requests-limit: 10
+    versioning-strategy: auto
+    labels:
+      - 'dependencies'
+    groups:
+      vite:
+        patterns:
+          - 'vite'
+          - 'vite-plugin-rails'
+      eslint:
+        patterns:
+          - 'eslint*'
+      hotwired:
+        patterns:
+          - '@hotwired*'
+      charts:
+        patterns:
+          - 'chart.js'
+          - 'chartkick'
+      fortawesome:
+        patterns:
+          - '@fortawesome/*'
+      size-limit:
+        patterns:
+          - '@size-limit/file'
+          - 'size-limit'
+
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: 'daily'
+      time: '01:00'
+      timezone: Europe/Berlin
+    labels:
+      - 'dependencies'

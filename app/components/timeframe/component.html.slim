@@ -1,0 +1,56 @@
+.flex-auto.max-w-full.flex.items-center.justify-between.space-x-4.text-indigo-200.tracking-wider.whitespace-nowrap.text-sm.md:text-base
+  - if timeframe.can_paginate?
+    - if timeframe.prev
+      = link_to root_path(sensor: params[:sensor], timeframe: timeframe.prev),
+                class: 'px-2 py-1 rounded hover:text-white dark:hover:text-gray-400 hover:bg-indigo-500 dark:hover:bg-indigo-800 click-animation',
+                'aria-label': t('.previous'),
+                rel: 'prev' do
+        i.fas.fa-chevron-left.fa-lg
+    - else
+      .px-2.py-1
+        i.fas.fa-chevron-left.fa-lg.opacity-50
+
+  - case timeframe.id
+  - when :now
+    .py-1
+      = timeframe.localized
+
+  - when :all
+    .py-1 data-controller= 'tippy' title= I18n.l(timeframe.min_date)
+      == timeframe.localized
+
+  - when :day
+    .py-1.flex-1.md:w-72.text-center
+      time datetime= timeframe
+        = timeframe.localized
+
+  - when :week
+    .py-1.flex-1.md:w-72.text-center
+      time.space-x-4 datetime= timeframe
+        span
+          = timeframe.localized
+        small.hidden.md:inline
+          =<> l timeframe.beginning.to_date, format: :default
+          span.text-indigo-300 &minus;
+          =<> l timeframe.ending.to_date, format: :default
+
+  - when :month
+    .py-1.w-36.text-center
+      time datetime= timeframe
+        = timeframe.localized
+
+  - when :year
+    .py-1.w-16.text-center
+      time datetime= timeframe
+        = timeframe.localized
+
+  - if timeframe.can_paginate?
+    - if timeframe.next
+      = link_to root_path(sensor: params[:sensor], timeframe: timeframe.next),
+                class: 'px-2 py-1 rounded hover:text-white dark:hover:text-gray-400 hover:bg-indigo-500 dark:hover:bg-indigo-800 click-animation',
+                'aria-label': t('.next'),
+                rel: 'next' do
+        i.fas.fa-chevron-right.fa-lg
+    - else
+      .px-2.py-1
+        i.fas.fa-chevron-right.fa-lg.opacity-50
